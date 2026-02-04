@@ -1,0 +1,135 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleSerialization
+{
+    public interface ISerializable
+    {
+        void Serialize(object obj);
+    }
+    public interface IDeserializable
+    {
+        void Deserialize(string data, Type type);
+    }
+    public interface ITypeSafe
+    {
+        string GetTypeIdentifier(Type type);
+    }
+
+
+    public abstract class Serializer : ISerializable, IDeserializable, ITypeSafe
+    {
+        public abstract void Serialize(object obj);
+        public abstract void Deserialize(string data, Type type);
+        public abstract string GetTypeIdentifier(Type type);
+        protected abstract void GetTypeFromIdentifier(string identifier);
+
+    }
+
+
+    public class JsonSerializer : Serializer
+    {
+        private string name;
+        public override void Serialize(object obj)
+        {
+            Console.WriteLine($"{name}: Объект был сериализован");
+
+        }
+        public override void Deserialize(string data, Type type)
+        {
+            string type1 = type.ToString();
+            Console.WriteLine($"{name}: Объект был ДЕсериализован ({type1})");
+        }
+        public override string GetTypeIdentifier(Type type)
+        {
+            Console.WriteLine($"{name}: Идентификатор получил тип данных!");
+            string dataType = type.ToString();
+            GetTypeFromIdentifier(dataType);
+            return dataType;
+        }
+        protected override void GetTypeFromIdentifier(string identifier)
+        {
+            Console.WriteLine($"{name}: Получен тип данных из идентификатора");
+            Console.WriteLine($"Тип данных из идентификатора: {identifier}");
+        }
+        public JsonSerializer(string Name) {
+            name = Name;
+        }
+    }
+
+
+    public class XMLSerializer : Serializer
+    {
+        public override void Serialize(object obj)
+        {
+            Console.WriteLine("XMLSerializer: Была проведена сериализация");
+
+        }
+        public override void Deserialize(string data, Type type)
+        {
+            Console.WriteLine("XMLSerializer: Была проведена десериализация");
+        }
+        public override string GetTypeIdentifier(Type type)
+        {
+            Console.WriteLine("XMLSerializer: DataType находится у идентификатора");
+            string dataType = type.ToString();
+            GetTypeFromIdentifier(dataType);
+            return dataType;
+        }
+        protected override void GetTypeFromIdentifier(string identifier)
+        {
+            Console.WriteLine("XMLSerializer: Получен DataType из идентификатора");
+            Console.WriteLine($"DataType: {identifier}!");
+        }
+    }
+
+
+    public class BinarySerializer : Serializer
+    {
+        public override void Serialize(object obj)
+        {
+            Console.WriteLine("BinarySerializer: сериализован");
+
+        }
+        public override void Deserialize(string data, Type type)
+        {
+            Console.WriteLine("BinarySerializer: ДЕсериализован");
+        }
+        public override string GetTypeIdentifier(Type types)
+        {
+            Console.WriteLine("BinarySerializerIdentifier: получен тип данных");
+            string dataType = types.ToString();
+            GetTypeFromIdentifier(dataType);
+            return dataType;
+        }
+        protected override void GetTypeFromIdentifier(string identifier)
+        {
+            Console.WriteLine($"Тип данных из идентификатора: {identifier} !");
+        }
+    }
+
+
+    class Program
+    {
+        public static void Main()
+        {
+            //проверка каждого метода
+            BinarySerializer binarySerializer = new BinarySerializer();
+            JsonSerializer jsonSerializer = new JsonSerializer("Test");
+            XMLSerializer xmlSerializer = new XMLSerializer();
+            List<Serializer> listOfSerializerObjects = new List<Serializer>() { binarySerializer, jsonSerializer, xmlSerializer};
+            foreach (Serializer serializer in listOfSerializerObjects)
+            {
+                serializer.Serialize(listOfSerializerObjects[0]);
+                serializer.Deserialize(" test ", Type.GetType("System.Int16"));
+                serializer.GetTypeIdentifier(Type.GetType("System.Int32"));
+                Console.WriteLine("***\n");
+            }
+            Console.WriteLine("\nFin");
+        }
+    }
+}
