@@ -9,12 +9,15 @@ namespace Practice2
             Console.WriteLine("Введите X: ");
             int x = Convert.ToInt32(Console.ReadLine());
             double y;
-            if (x > -4) {
-                y = Math.Cos(2*x)+9;
+            if (x > -4)
+            {
+                y = Math.Cos(2 * x) + 9;
                 Console.WriteLine($"Итог:{y}");
             }
-            else { y = Math.Cos(x + 3) / x - 9;
-                Console.WriteLine($"Итог:{y}");
+            else
+            {
+                y = Math.Cos(x + 3) / x - 9;
+                Console.WriteLine("Итог:{0:f3}", y);
             }
 
         }
