@@ -1,0 +1,32 @@
+using System;
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        public static double xFinder(int a, int b)
+        {
+            //DOESN'T WORK
+            double x;
+            if ((a == 0) && (b == 0))
+            {
+                Console.WriteLine("X - любое");
+                return 1;
+            }
+            if (a != 0)
+            {
+                x = Math.Sqrt(-b / a);
+                Console.WriteLine("X = 0 или +-{0:f3}", x);
+                return x;
+            }
+            return 0;
+        }
+        static void Main()
+        {
+            Console.WriteLine("Введите число a:");
+            int a = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Введите число b:");
+            int b = Convert.ToInt32(Console.ReadLine());
+            double result = xFinder(a, b);
+        }
+    }
+}
