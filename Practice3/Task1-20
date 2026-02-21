@@ -1,0 +1,28 @@
+using System;
+
+namespace ConsoleApp3
+{
+    class Program
+    {
+        public static void Resolve(int xStart, int xEnd, int diff)
+        {
+            double result;
+            for (int i = xStart; i <= xEnd; i += diff)
+            {
+                result = Math.Sin(Math.Pow(i, 2)) - Math.Cos(2 * i);
+                Console.WriteLine("{0:d}    -    {1:f3}",i,result);
+            }
+
+        }
+        static void Main()
+        {
+            Console.WriteLine("Введите начальную точку x:");
+            int xSt = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Введите конечную точку х:");
+            int xFin = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Введите шаг:");
+            int xStep = Convert.ToInt32(Console.ReadLine());
+            Resolve(xSt, xFin, xStep);
+        }
+    }
+}
